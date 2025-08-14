@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <id>glpioauthimapazure</id>
+  <name>OAuth IMAP Azure</name>
+  <version>1.0.0</version>
+  <author>Seu Nome</author>
+  <homepage>https://seusite.com</homepage>
+  <license>GPLv2+</license>
+  <minGlpiVersion>10.0.0</minGlpiVersion>
+  <maxGlpiVersion>10.0.99</maxGlpiVersion>
+  <short_description>Autenticação IMAP OAuth2 com Azure para GLPI</short_description>
+  <long_description>Plugin para autenticação IMAP OAuth2 com Azure, coleta/envio de e-mails, logs e tela administrativa.</long_description>
+</manifest>
