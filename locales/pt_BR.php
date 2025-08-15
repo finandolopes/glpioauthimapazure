@@ -17,4 +17,14 @@ return [
     'PLUGIN_OAUTHIMAPAZURE_LOGS_TYPE' => 'Tipo',
     'PLUGIN_OAUTHIMAPAZURE_LOGS_MESSAGE' => 'Mensagem',
     'PLUGIN_OAUTHIMAPAZURE_LOGS_PAGE' => 'Página:',
+    // Novas chaves para logs internacionalizados
+    'PLUGIN_OAUTHIMAPAZURE_LOG_TOKEN_NOT_FOUND' => 'Refresh token não encontrado para a conta. Execute o fluxo OAuth2.',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_TOKEN_RENEW_FAIL' => 'Falha ao renovar access_token para',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_FETCH_FAIL' => 'Erro ao coletar e-mails para',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_EMAIL_COLLECTED' => 'E-mail coletado.',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_ATTACHMENTS' => 'Anexos',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_NEW_TICKET' => 'Novo chamado via e-mail',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_TICKET_CREATED' => 'Chamado criado: ID',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_TICKET_FAIL' => 'Falha ao criar chamado.',
+    'PLUGIN_OAUTHIMAPAZURE_LOG_TICKET_CLASS_NOT_FOUND' => 'Classe Ticket não encontrada.'
 ];

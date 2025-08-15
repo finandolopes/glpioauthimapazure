@@ -7,22 +7,24 @@ include ('../inc/config.class.php');
 include ('../inc/oauth.class.php');
 include ('../inc/log.class.php');
 
-if (isset($_GET['code'])) {
+if (isset($_GET['code']) && isset($_GET['email'])) {
     $code = $_GET['code'];
+    $email = $_GET['email'];
     $tokenData = PluginGlpioauthimapazureOAuth::getAccessToken($code);
     if ($tokenData && isset($tokenData['refresh_token'])) {
-        // Criptografa o refresh_token antes de salvar
-        $key = hash('sha256', 'chave-secreta-do-plugin');
-        $iv = substr($key, 0, 16);
-        $encrypted = openssl_encrypt($tokenData['refresh_token'], 'AES-256-CBC', $key, 0, $iv);
-        file_put_contents(__DIR__.'/../logs/refresh_token.txt', $encrypted);
+        // Salva o refresh_token na tabela de contas
+        global $DB;
+        $stmt = $DB->prepare("UPDATE glpi_plugin_glpioauthimapazure_accounts SET refresh_token=? WHERE email=?");
+        $stmt->bind_param('ss', $tokenData['refresh_token'], $email);
+        $stmt->execute();
+        $stmt->close();
         echo '<h2>Autorização concluída!</h2>';
-        echo '<p>Refresh token salvo com sucesso.</p>';
+        echo '<p>Refresh token salvo na conta: ' . htmlspecialchars($email) . '.</p>';
     } else {
         echo '<h2>Erro ao obter token!</h2>';
         echo '<pre>' . htmlspecialchars(print_r($tokenData, true)) . '</pre>';
     }
-    PluginGlpioauthimapazureLog::addLog('oauth', 'Callback OAuth2 executado.');
+    PluginGlpioauthimapazureLog::addLog('oauth', 'Callback OAuth2 executado para ' . $email);
 } else {
     echo '<h2>Callback inválido</h2>';
 }

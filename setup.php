@@ -1,3 +1,7 @@
+<?php
+// Criação da tabela de fila (corrigido: código não pode vir antes da tag PHP)
+function plugin_setup_glpioauthimapazure_queue() {
+    global $DB;
     $query5 = "CREATE TABLE IF NOT EXISTS glpi_plugin_glpioauthimapazure_queue (
         id INT AUTO_INCREMENT PRIMARY KEY,
         account_id INT,
@@ -11,7 +15,7 @@
         processed_at TIMESTAMP NULL DEFAULT NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
     $DB->query($query5);
-<?php
+}
 /**
  * Plugin setup file for GLPI OAuth IMAP Azure
  */
@@ -72,6 +76,10 @@ function plugin_glpiinstall_glpioauthimapazure() {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
     $DB->query($query4);
+    // Cria a tabela de fila também
+    if (function_exists('plugin_setup_glpioauthimapazure_queue')) {
+        plugin_setup_glpioauthimapazure_queue();
+    }
     return true;
 }
 
@@ -81,5 +89,8 @@ function plugin_glpiuninstall_glpioauthimapazure() {
     global $DB;
     $DB->query("DROP TABLE IF EXISTS glpi_plugin_glpioauthimapazure_configs");
     $DB->query("DROP TABLE IF EXISTS glpi_plugin_glpioauthimapazure_logs");
+    $DB->query("DROP TABLE IF EXISTS glpi_plugin_glpioauthimapazure_accounts");
+    $DB->query("DROP TABLE IF EXISTS glpi_plugin_glpioauthimapazure_audit");
+    $DB->query("DROP TABLE IF EXISTS glpi_plugin_glpioauthimapazure_queue");
     return true;
 }

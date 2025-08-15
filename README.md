@@ -51,9 +51,19 @@ Plugin avançado para GLPI 10 que integra autenticação OAuth2 (Azure AD), cole
 - E-mails coletados são armazenados para processamento assíncrono.
 - Tela de fila exibe status, erro e detalhes de cada item.
 
-## Internacionalização
-- Todos os textos de interface usam função de tradução.
-- Fácil expansão para novos idiomas.
+
+## Compatibilidade com GLPI 9.5.5 (Legacy)
+
+Este plugin foi desenvolvido e testado principalmente para GLPI 10.x. É possível instalar e utilizar em GLPI 9.5.5, porém com as seguintes limitações e riscos:
+
+- **Interface:** Recursos visuais modernos (tabelas responsivas, ícones, temas escuros) podem não funcionar corretamente.
+- **APIs e Integração:** Algumas APIs, métodos de hook e integração podem não estar disponíveis ou apresentar comportamento diferente.
+- **Segurança:** Funcionalidades de CSRF, sessões e proteção de formulários são menos robustas em versões antigas.
+- **Plugins/Hooks:** O suporte a plugins e hooks pode ser limitado ou exigir adaptações manuais.
+- **Testes:** Não há garantia de funcionamento pleno em GLPI < 10. Testes automatizados e integração contínua não cobrem versões antigas.
+- **Recomendação:** Sempre que possível, atualize o GLPI para a versão 10.x ou superior para melhor experiência, segurança e suporte.
+
+Ao instalar em GLPI 9.5.5, o plugin exibirá um alerta e exigirá confirmação manual do administrador.
 
 ---
 
@@ -100,11 +110,35 @@ Este plugin implementa autenticação IMAP OAuth2 com Azure (Microsoft 365) para
 9. Ajuste o hook de coleta de e-mails (`hook.php`) para usar o e-mail e refresh_token corretos do seu ambiente
 10. Agende a execução do cron do GLPI para coletar e-mails automaticamente
 
-## Observações
-- Requer GLPI 10+
-- Requer PHP com suporte a IMAP, cURL e Composer
-- Requer PHPMailer (instalado via Composer)
-- O plugin registra logs detalhados de erros e eventos
+
+## Compatibilidade com GLPI 9.5.5 (Modo Legado)
+
+O plugin pode ser instalado opcionalmente em GLPI 9.5.5, mas com as seguintes limitações e riscos:
+
+- **Interface:** Recursos visuais modernos (tabelas responsivas, ícones, temas escuros) podem não funcionar corretamente.
+- **APIs e Integração:** Algumas APIs, métodos de hook e integração podem não estar disponíveis ou apresentar comportamento diferente.
+- **Segurança:** Funcionalidades de CSRF, sessões e proteção contra ataques podem ser menos robustas.
+- **Plugins/Hooks:** O suporte a plugins e hooks pode ser limitado ou exigir adaptações manuais.
+- **Testes:** Testes automatizados e integração contínua não são garantidos para GLPI < 10.
+- **Dependências:** Certifique-se de que as extensões PHP (IMAP, cURL, OpenSSL) estejam ativas e atualizadas.
+
+**Recomendação:** Sempre que possível, utilize o GLPI 10.x ou superior para garantir total compatibilidade e segurança. Caso opte por usar em 9.5.5, revise cuidadosamente logs, permissões e funcionalidades após a instalação.
+
+
+**Adaptações sugeridas para GLPI 9.5.5:**
+- Teste todos os fluxos críticos (autenticação, coleta de e-mails, criação de chamados, logs, auditoria).
+- Revise a criação de tabelas no `setup.php` para garantir compatibilidade com o MySQL/MariaDB do seu ambiente.
+- Ajuste chamadas de métodos/constantes que não existam em versões antigas, como:
+  - Use `defined('GLPI_VERSION')` antes de acessar a constante.
+  - Para hooks, utilize funções como `plugin_init_glpioauthimapazure`, `plugin_version_glpioauthimapazure`, `plugin_glpiinstall_glpioauthimapazure` e `plugin_glpiuninstall_glpioauthimapazure` no `setup.php`.
+  - Se necessário, adapte o menu para HTML puro, evitando classes CSS modernas.
+  - Evite dependência de APIs JavaScript modernas ou recursos de interface exclusivos do GLPI 10.
+- Para logs e auditoria, utilize apenas métodos básicos de acesso ao banco (`$DB->query`, `$DB->fetch_assoc`) caso métodos utilitários não estejam disponíveis.
+- Caso encontre problemas com sessões ou CSRF, implemente verificações manuais usando `$_SESSION` e tokens simples.
+- Para problemas de visualização, simplifique tabelas e formulários para HTML básico.
+- Consulte a documentação oficial do GLPI 9.5.5 para detalhes de hooks e APIs suportadas.
+
+**Relate problemas de compatibilidade** abrindo uma issue no repositório ou enviando detalhes para o autor.
 
 ## Fluxo de uso
 1. Configure o Azure e salve as credenciais no plugin

@@ -1,16 +1,4 @@
-// Função utilitária para internacionalização
-function plugin_glpioauthimapazure_translate($key) {
-    static $lang = null;
-    if ($lang === null) {
-        $file = __DIR__ . '/../locales/pt_BR.php';
-        if (file_exists($file)) {
-            $lang = include $file;
-        } else {
-            $lang = [];
-        }
-    }
-    return $lang[$key] ?? $key;
-}
+// ...existing code...
 <?php
 /**
  * Classe de configuração do plugin
